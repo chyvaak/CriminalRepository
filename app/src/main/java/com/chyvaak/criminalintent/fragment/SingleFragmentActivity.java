@@ -2,16 +2,14 @@ package com.chyvaak.criminalintent.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-
+import android.support.v7.app.AppCompatActivity;
 import com.chyvaak.criminalintent.R;
-import com.chyvaak.criminalintent.fragment.CrimeFragment;
 
 /**
  * Created by chyvaak on 26.03.2016.
  */
-public abstract class SingleFragmentActivity extends FragmentActivity{
+public abstract class SingleFragmentActivity extends AppCompatActivity{
 
     protected abstract Fragment createFragment();
 
