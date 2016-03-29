@@ -10,7 +10,7 @@ import java.sql.Date;
 import java.util.UUID;
 
 /**
- * Created by chyvaak on 27.03.2016.
+ * Child class of Cursor where was realised method witch helping to wrate to DB.
  */
 public class CrimeCursorWrapper extends CursorWrapper {
 
@@ -23,11 +23,13 @@ public class CrimeCursorWrapper extends CursorWrapper {
         String title = getString(getColumnIndex(CrimeDbSchema.Cols.TITLE));
         long date = getLong(getColumnIndex(CrimeDbSchema.Cols.DATE));
         int isSolved = getInt(getColumnIndex(CrimeDbSchema.Cols.SOLVED));
+        String suspect = getString(getColumnIndex(CrimeDbSchema.Cols.SUSPECT));
 
         Crime crime = new Crime(UUID.fromString(uuidString));
         crime.setmTitle(title);
         crime.setmDate(new Date(date));
         crime.setmSolved(isSolved != 0);
+        crime.setmSuspect(suspect);
         return crime;
     }
 }
