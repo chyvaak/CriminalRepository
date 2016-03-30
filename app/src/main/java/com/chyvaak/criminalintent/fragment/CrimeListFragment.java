@@ -1,5 +1,7 @@
 package com.chyvaak.criminalintent.fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,6 +22,7 @@ import com.chyvaak.criminalintent.util.Crime;
 import com.chyvaak.criminalintent.util.CrimeLab;
 import java.util.List;
 
+
 /**
  * Created by chyvaak on 26.03.2016.
  */
@@ -28,8 +31,17 @@ public class CrimeListFragment extends Fragment {
     private CrimeAdapter mAdapter;
     private boolean mSubtitleVisible;
     private static final String SAVED_SUBTITLE_VISIBLE = "subtitle";
+    private Callbacks mCallbacks;
 
+    public interface Callbacks{
+        void onCrimeSelected(Crime crime);
+    }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mCallbacks = (Callbacks) activity;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,7 +62,7 @@ public class CrimeListFragment extends Fragment {
         return view;
     }
 
-    private void updateUI() {
+    public void updateUI() {
 
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         List<Crime> crimes = crimeLab.getCrimes();
@@ -88,8 +100,7 @@ public class CrimeListFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getmId());
-            startActivity(intent);
+        mCallbacks.onCrimeSelected(mCrime);
         }
     }
 
@@ -144,9 +155,8 @@ public class CrimeListFragment extends Fragment {
             case R.id.menu_item_new_crime:
                 Crime crime = new Crime();
                 CrimeLab.get(getActivity()).addCrime(crime);
-                Intent intent = CrimePagerActivity.newIntent(
-                        getActivity(), crime.getmId());
-                startActivity(intent);
+                updateUI();
+                mCallbacks.onCrimeSelected(crime);
                 return true;
             case R.id.menu_item_show_subtitle:
                 mSubtitleVisible = !mSubtitleVisible;
@@ -172,5 +182,11 @@ public class CrimeListFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(SAVED_SUBTITLE_VISIBLE, mSubtitleVisible);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
     }
 }

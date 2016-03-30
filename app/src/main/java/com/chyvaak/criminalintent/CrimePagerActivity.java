@@ -17,7 +17,7 @@ import com.chyvaak.criminalintent.util.CrimeLab;
 import java.util.List;
 import java.util.UUID;
 
-public class CrimePagerActivity extends AppCompatActivity {
+public class CrimePagerActivity extends AppCompatActivity implements CrimeFragment.Callbacks{
     private ViewPager mViewPager;
     private List<Crime> mCrime;
 
@@ -61,6 +61,11 @@ public class CrimePagerActivity extends AppCompatActivity {
     @Override
     public Intent getSupportParentActivityIntent() {
         return super.getSupportParentActivityIntent();
+
+    }
+
+    @Override
+    public void onCrimeUpdated(Crime crime) {
 
     }
 }
